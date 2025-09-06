@@ -1,0 +1,45 @@
+---
+---
+<div class="home-container">
+    <div class="box-container">
+        <img
+                src="/grassProject.png"
+                alt="logo-img"
+                id="logo"
+                onclick="window.open('https://discord.gg/3n3EHtyQf7', '_blank')"
+        />
+        <h1 id="name">GrassProject</h1>
+    </div>
+    <div class="des">
+        <h1>Developing Minecraft</h1>
+    </div>
+</div>
+
+<style>
+    .home-container {
+        text-align: center;
+    }
+
+    .box-container {
+        background: linear-gradient(135deg, #ddfec8 0%, #86bc7b 100%);
+        padding: 2rem 4rem;
+        width: 12rem;
+        margin: 10rem auto 3rem;
+        border-radius: 2rem;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        text-align: center;
+    }
+
+    #logo {
+        width: 100px;
+        height: auto;
+        border-radius: 1rem;
+        margin-bottom: 1.5rem;
+        transition: filter 0.2s;
+        cursor: pointer;
+    }
+
+    #logo:hover {
+        filter: drop-shadow(0 0 1em rgba(89, 132, 94, 0.67));
+    }
+</style>

@@ -1,0 +1,133 @@
+---
+const startDate = new Date('2025-03-15')
+const endDate = new Date()
+const milestones = [
+    { label: 'Start', date: startDate },
+    { label: 'Now', date: endDate }
+]
+
+function getLeft(date: Date, startDate: Date, endDate: Date) {
+    const total = endDate.getTime() - startDate.getTime()
+    const cur = date.getTime() - startDate.getTime()
+    if (total <= 0) return '0%'
+    const percent = Math.max(0, Math.min(100, (cur / total) * 100))
+    return percent + '%'
+}
+---
+
+<div class="timeline-container">
+    <div class="timeline-wrap">
+        <div class="timeline" id="timeline-bar">
+            {milestones.map((m, idx) => (
+                    <div
+                            class="milestone"
+                            style={`left: ${getLeft(m.date, startDate, endDate)}`}
+                            data-idx={idx}
+                    >
+                        <div class="dot"></div>
+                        <div class="info-box" style="display:none;">
+                            <strong>{m.label}</strong><br />
+                            {m.date.toISOString().slice(0,10).replace(/-/g, '.')}
+                        </div>
+                    </div>
+            ))}
+        </div>
+        <div class="timeline-labels">
+            <span>{startDate.toISOString().slice(0,10).replace(/-/g, '.')}</span>
+            <span>{endDate.toISOString().slice(0,10).replace(/-/g, '.')}</span>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.milestone').forEach((el) => {
+            const dot = el.querySelector('.dot');
+            const info = el.querySelector('.info-box');
+            dot.addEventListener('mouseenter', () => {
+                info.style.display = 'block';
+                info.style.opacity = 0;
+                info.style.transform = 'translateY(-10px) scale(0.95)';
+                setTimeout(() => {
+                    info.style.transition = 'all 0.25s cubic-bezier(.4,2,.6,1)';
+                    info.style.opacity = 1;
+                    info.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            dot.addEventListener('mouseleave', () => {
+                info.style.transition = 'all 0.25s cubic-bezier(.4,2,.6,1)';
+                info.style.opacity = 0;
+                info.style.transform = 'translateY(-10px) scale(0.95)';
+                setTimeout(() => {
+                    info.style.display = 'none';
+                }, 250);
+            });
+        });
+    })
+</script>
+
+<style>
+    .timeline-container {
+        min-width: 80vw;
+        max-width: 600px;
+        margin: 12rem auto 0 auto;
+        padding: 2rem 1rem;
+        min-height: 150px;
+    }
+    .timeline-wrap {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .timeline {
+        position: relative;
+        height: 6px;
+        background: linear-gradient(90deg, #B9E193 0%, #556B2F 100%);
+        border-radius: 3px;
+        margin-bottom: 1.5rem;
+    }
+    .milestone {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+    }
+    .dot {
+        width: 18px;
+        height: 18px;
+        background: #556B2F;
+        border: 3px solid #B9E193;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        cursor: pointer;
+        transition: box-shadow 0.2s;
+    }
+    .dot:hover {
+        box-shadow: 0 4px 16px rgba(89, 132, 94, 0.25);
+    }
+    .info-box {
+        position: absolute;
+        left: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #fff;
+        color: #213547;
+        border-radius: 1rem;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+        padding: 1rem 1.2rem;
+        min-width: 100px;
+        font-size: 1rem;
+        white-space: nowrap;
+        z-index: 5;
+        font-family: 'Quicksand', system-ui, Avenir, Helvetica, Arial, sans-serif;
+        opacity: 0;
+        transition: none;
+    }
+    .timeline-labels {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 6px;
+        font-size: 1rem;
+        color: #B9E193;
+        font-weight: 600;
+    }
+</style>

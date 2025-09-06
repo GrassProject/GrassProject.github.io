@@ -1,0 +1,50 @@
+---
+import { getDiscordUser } from '../script/DiscordUser.ts';
+import Cookies from 'js-cookie';
+
+if (typeof window !== 'undefined') {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+
+    const redirectToHome = () => window.location.replace('/');
+
+    if (code) {
+        (async () => {
+            try {
+                const redirectUri = `${window.location.origin}/callback`;
+                const userInfo = await getDiscordUser(code, redirectUri);
+                const filteredUser = {
+                    id: userInfo.id,
+                    username: userInfo.username,
+                    global_name: userInfo.global_name,
+                    email: userInfo.email,
+                    locale: userInfo.locale,
+                    banner_color: userInfo.banner_color
+                };
+                Cookies.set('user', JSON.stringify(filteredUser), { expires: 7 });
+                Cookies.set('isLoggedIn', 'true', { expires: 7 });
+            } catch (err) {
+                console.error(err);
+                alert('로그인 처리 중 오류가 발생했습니다.');
+            } finally {
+                redirectToHome();
+            }
+        })();
+    } else {
+        const error = params.get('error');
+        const description = params.get('error_description')?.replace('+', ' ');
+        if (error && description) alert(error + ': ' + description);
+        redirectToHome();
+    }
+}
+---
+
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+</head>
+<body>
+<p>Logging in...</p>
+</body>
+</html>
