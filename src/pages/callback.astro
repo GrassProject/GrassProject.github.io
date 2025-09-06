@@ -12,6 +12,7 @@
 <script>
     import { getDiscordUser } from '../script/DiscordUser';
     import Cookies from 'js-cookie';
+    import {url} from "../consts.ts";
 
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
@@ -21,7 +22,7 @@
     if (code) {
         (async () => {
             try {
-                const redirectUri = `https://grassproject.github.io/callback`;
+                const redirectUri = `${url}/callback`;
                 const userInfo = await getDiscordUser(code, redirectUri);
                 const filteredUser = {
                     id: userInfo.id,
