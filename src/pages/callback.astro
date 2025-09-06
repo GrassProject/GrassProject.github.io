@@ -2,12 +2,6 @@
 import BaseHeader from "../components/BaseHeader.astro";
 import Navigator from "../components/Navigator.astro";
 import BaseFooter from "../components/BaseFooter.astro";
-import { url } from "../consts.ts";
-
-const redirectUri = `${url}/callback`;
-const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=1358603949015564449&response_type=code&redirect_uri=${encodeURIComponent(
-    redirectUri
-)}&scope=email+identify+openid`;
 ---
 
 <html lang="ko">
@@ -28,6 +22,12 @@ const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=13586039
 
 <script type="module">
     import Cookies from "js-cookie";
+    import { url } from "../consts.ts";
+
+    const redirectUri = `${url}/callback`;
+    const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=1358603949015564449&response_type=code&redirect_uri=${encodeURIComponent(
+        redirectUri
+    )}&scope=email+identify+openid`;
 
     const container = document.getElementById("login-container");
     const storedUser = Cookies.get("user");
@@ -36,13 +36,13 @@ const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=13586039
     if (storedUser && storedLoggedIn === "true") {
         const user = JSON.parse(storedUser);
         container.innerHTML = `
-        <div class="user-info">
-          <span class="user-text">Welcome, ${user.global_name || "User"}</span>
-          <button id="logout-btn" class="round-btn logout-btn">
-            <span class="btn-text">Logout</span>
-          </button>
-        </div>
-      `;
+          <div class="user-info">
+            <span class="user-text">Welcome, ${user.global_name || "User"}</span>
+            <button id="logout-btn" class="round-btn logout-btn">
+              <span class="btn-text">Logout</span>
+            </button>
+          </div>
+        `;
 
         document.getElementById("logout-btn")?.addEventListener("click", () => {
             Cookies.remove("user");
@@ -51,85 +51,11 @@ const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=13586039
         });
     } else {
         container.innerHTML = `
-        <a href="${discordLoginUrl}" class="round-btn login-btn">
-          <span class="btn-text">Login</span>
-        </a>
-      `;
+          <a href="${discordLoginUrl}" class="round-btn login-btn">
+            <span class="btn-text">Login</span>
+          </a>
+        `;
     }
 </script>
 </body>
 </html>
-
-<style>
-    .container {
-        min-height: 100vh;
-        justify-content: space-between;
-        text-align: center;
-        font-family: 'Quicksand', system-ui, Avenir, Helvetica, Arial, sans-serif;
-    }
-
-    .login {
-        margin-top: 2rem;
-        display: flex;
-        justify-content: center;
-    }
-
-    .user-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .user-text {
-        opacity: 1;
-        transition: opacity 0.3s ease-in-out;
-    }
-
-    .user-info:hover .user-text {
-        opacity: 0;
-    }
-
-    .round-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        white-space: nowrap;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        transition: all 0.3s ease-in-out;
-        cursor: pointer;
-        font-size: 0.9rem;
-        font-weight: 500;
-        text-decoration: none;
-        color: #fff;
-        position: relative;
-    }
-
-    .round-btn:hover {
-        width: 120px;
-        border-radius: 20px;
-        justify-content: center;
-    }
-
-    .btn-text {
-        opacity: 0;
-        margin-left: 0.5rem;
-        transition: opacity 0.2s ease-in-out;
-    }
-
-    .round-btn:hover .btn-text {
-        opacity: 1;
-    }
-
-    .login-btn {
-        background: #86bc7b;
-    }
-
-    .logout-btn {
-        background: #c9f1a4;
-        color: #242424;
-    }
-</style>
