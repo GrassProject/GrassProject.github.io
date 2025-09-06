@@ -20,7 +20,7 @@ import BaseFooter from "../components/BaseFooter.astro";
     <BaseFooter/>
 </div>
 
-<script type="module">
+<script>
     import Cookies from "js-cookie";
     import { url } from "../consts.ts";
 
@@ -32,6 +32,8 @@ import BaseFooter from "../components/BaseFooter.astro";
     const container = document.getElementById("login-container");
     const storedUser = Cookies.get("user");
     const storedLoggedIn = Cookies.get("isLoggedIn");
+
+    if (!container || !storedUser || !storedLoggedIn) return;
 
     if (storedUser && storedLoggedIn === "true") {
         const user = JSON.parse(storedUser);
