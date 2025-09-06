@@ -35,7 +35,7 @@ import BaseFooter from "../components/BaseFooter.astro";
 
     // if (!container || !storedUser || !storedLoggedIn) return;
 
-    if (storedUser && storedLoggedIn == "true") {
+    if (storedUser && storedLoggedIn === "true") {
         const user = JSON.parse(storedUser);
         container.innerHTML = `
         <div class="user-info">
