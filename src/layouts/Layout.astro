@@ -6,7 +6,7 @@ import BaseFooter from "../components/BaseFooter.astro";
 let isLoggedIn = false;
 let user = null;
 
-const redirectUri = `${typeof window !== 'undefined' ? window.location.href : ''}/callback}`;
+const redirectUri = `https://grassproject.github.io/callback`;
 const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=1358603949015564449&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=email+identify+openid`;
 
 if (typeof window !== 'undefined') {
