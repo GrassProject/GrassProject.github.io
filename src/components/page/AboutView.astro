@@ -32,7 +32,7 @@
     const rotateTexts = ['Plugin', 'Server'];
     let currentIndex = 0;
 
-    function updateText(rotateTextEl: HTMLElement) {
+    function updateText(rotateTextEl) {
         rotateTextEl.textContent = rotateTexts[currentIndex];
         animate(rotateTextEl,
             { opacity: [0, 1], y: [-20, 0] },
