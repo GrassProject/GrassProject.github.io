@@ -1,11 +1,12 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
     site: 'https://grassproject.github.io',
     output: 'server',
-    server: {
-        allowedHosts: ['0.tcp.jp.ngrok.io']
-    }
+    adapter: node({
+        mode: 'standalone'
+    })
 });
