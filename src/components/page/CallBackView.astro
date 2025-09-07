@@ -1,0 +1,61 @@
+---
+import url from '../../../public/script/consts.ts'
+
+const redirectUri = `${url}/callback`;
+---
+
+
+<div class="logging" id="login-container">
+    <h1 id="logging-in" data-redirect-uri={redirectUri}>Logging in...</h1>
+</div>
+
+<script type="module">
+    function setCookie(name, value) {
+        const cookieValue = typeof value === 'object' ? JSON.stringify(value) : value;
+        document.cookie = `${name}=${encodeURIComponent(cookieValue)};path=/`;
+    }
+
+    const h1 = document.getElementById("logging-in");
+    const url = h1.dataset.redirectUri;
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code') || 'NULL'
+    const redirectUri = `${url}`;
+
+    if (!code || code === 'NULL') {
+        alert('Code Not Received')
+    } else {
+
+        const res = await fetch('/api/discord', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code, redirectUri }),
+        });
+
+        const user = await res.json();
+
+        if (user.error) {
+            console.error('Discord user fetch failed:', user.error);
+            alert('Failed to fetch Discord user info');
+        } else {
+            console.log(user);
+            setCookie('user', {
+                id: user.id,
+                username: user.username,
+                global_name: user.global_name,
+                email: user.email,
+                locale: user.locale,
+                banner_color: user.banner_color
+            });
+            setCookie('isLoggedIn', 'true');
+
+            window.location.href = '/';
+        }
+    }
+</script>
+<style>
+    .logging {
+        text-align: center;
+        margin-top: 12rem;
+        margin-bottom: 6rem;
+    }
+</style>

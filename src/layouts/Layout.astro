@@ -2,6 +2,12 @@
 import BaseHeader from "../components/BaseHeader.astro";
 import Navigator from "../components/Navigator.astro";
 import BaseFooter from "../components/BaseFooter.astro";
+import url from "../../public/script/consts.ts";
+
+const redirectUri = `${url}/callback`;
+const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=1358603949015564449&response_type=code&redirect_uri=${
+    encodeURIComponent(redirectUri)
+}&scope=email+identify+openid`;
 ---
 
 <html lang="ko">
@@ -15,25 +21,19 @@ import BaseFooter from "../components/BaseFooter.astro";
 
     <Navigator/>
 
-    <div class="login" id="login-container"></div>
+    <div class="login" id="login-container" data-discord-login-url={discordLoginUrl}></div>
 
     <BaseFooter/>
 </div>
 
-<script type="module">
-    import Cookies from "js-cookie";
-    import {url} from "../consts.ts";
 
-    const redirectUri = `${url}/callback`;
-    const discordLoginUrl = `https://discord.com/oauth2/authorize?client_id=1358603949015564449&response_type=code&redirect_uri=${
-        encodeURIComponent(redirectUri
-    )}&scope=email+identify+openid`;
+<script type="module">
+    import {getCookie, removeCookie} from "/script/CookieManager.js";
 
     const container = document.getElementById("login-container");
-    const storedUser = Cookies.get("user");
-    const storedLoggedIn = Cookies.get("isLoggedIn");
-
-    // if (!container || !storedUser || !storedLoggedIn) return;
+    const discordLoginUrl = container.dataset.discordLoginUrl;
+    const storedUser = getCookie('user')
+    const storedLoggedIn = getCookie('isLoggedIn')
 
     if (storedUser && storedLoggedIn === "true") {
         const user = JSON.parse(storedUser);
@@ -43,26 +43,24 @@ import BaseFooter from "../components/BaseFooter.astro";
           <button id="logout-btn" class="round-btn logout-btn">
             <span class="btn-text">Logout</span>
           </button>
-        </div>
-      `;
+        </div>`;
 
         document.getElementById("logout-btn")?.addEventListener("click", () => {
-            Cookies.remove("user");
-            Cookies.remove("isLoggedIn");
+            removeCookie('user');
+            removeCookie('isLoggedIn')
             location.reload();
         });
     } else {
         container.innerHTML = `
         <a href="${discordLoginUrl}" class="round-btn login-btn">
           <span class="btn-text">Login</span>
-        </a>
-      `;
+        </a>`;
     }
 </script>
 </body>
 </html>
 
-<style>
+<style is:global>
     .container {
         min-height: 100vh;
         justify-content: space-between;
@@ -78,7 +76,7 @@ import BaseFooter from "../components/BaseFooter.astro";
 
     .user-info {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         gap: 0.5rem;
     }
@@ -88,7 +86,7 @@ import BaseFooter from "../components/BaseFooter.astro";
         transition: opacity 0.3s ease-in-out;
     }
 
-    .user-info:hover .user-text {
+    .user-info:hover ~ .logout-btn {
         opacity: 0;
     }
 
@@ -132,6 +130,5 @@ import BaseFooter from "../components/BaseFooter.astro";
 
     .logout-btn {
         background: #c9f1a4;
-        color: #242424;
     }
 </style>
