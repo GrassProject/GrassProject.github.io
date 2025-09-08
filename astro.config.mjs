@@ -7,7 +7,7 @@ export default defineConfig({
     site: 'https://grassproject.github.io',
     // output: 'server',
     base: '/', 
-    output: 'sta'
+    output: 'static'
     adapter: node({
         mode: 'standalone',
     }),
