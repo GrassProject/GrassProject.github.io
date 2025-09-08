@@ -6,6 +6,8 @@ import node from '@astrojs/node';
 export default defineConfig({
     site: 'https://grassproject.github.io',
     // output: 'server',
+    base: '/', 
+    output: 'sta'
     adapter: node({
         mode: 'standalone',
     }),
