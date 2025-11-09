@@ -13,15 +13,15 @@
 
 ## 🚀 Build & Deploy Instructions
 
-```npm
-npm install // Install dependencies
-npm run build // Build the project
-npm run deploy // Deploy the project
+```shell
+> npm install // Install dependencies
+> npm run build // Build the project
+> npm run deploy // Deploy the project
 ```
 
 ---
 
 ## 🪵 Branches
-- `main`: Astro (OLD)
+- `main`: Astro based Web (OLD)
 - `master`: Vite + React + TypeScript (NEW)
 - `gh-pages`: GitHub Pages Deployment
