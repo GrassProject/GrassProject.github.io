@@ -14,9 +14,9 @@
 ## 🚀 Build & Deploy Instructions
 
 ```shell
-> npm install // Install dependencies
-> npm run build // Build the project
-> npm run deploy // Deploy the project
+> npm install # Install dependencies
+> npm run build # Build the project
+> npm run deploy # Deploy the project
 ```
 
 ---
