@@ -37,12 +37,12 @@ function About() {
             <div className="members-des">
                 <div className="avatar-item">
                     <img src={apo} alt="" className="avatar"/>
-                    <h3>apo2073</h3>
+                    <h3>AS7AR</h3>
                 </div>
 
                 <div className="avatar-item">
                     <img src={jimin} alt="" className="avatar"/>
-                    <h3>MrJimin</h3>
+                    <h3>SeoJimin</h3>
                 </div>
 
                 <div className="avatar-item">
