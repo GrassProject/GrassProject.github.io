@@ -2,6 +2,7 @@ import {useState} from "react";
 import Navigation from "./component/Navigation.tsx";
 import Home from "./pages/Home.tsx";
 import About from "./pages/About.tsx";
+import Products from "./pages/Products.tsx";
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
         <>
             { page === 'Home' && <Home/> }
             { page === 'About' && <About/> }
+            { page === 'Products' && <Products/> }
             {}
             <Navigation setPage={setPage} />
         </>
